@@ -1,11 +1,13 @@
 <?php
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
-// Debugging: Check if the token cookie is accessible
-var_dump($_COOKIE); // Outputs all cookies, including the token
-
-// Check if the user is logged in
-$isLoggedIn = isset($_COOKIE['token']) && !empty($_COOKIE['token']);
+// Check if the user is logged in using PHPSESSID or a custom cookie
+$isLoggedIn = isset($_SESSION['username']) && !empty($_SESSION['username']);
+if (!$isLoggedIn && isset($_COOKIE['user_logged_in']) && $_COOKIE['user_logged_in'] === 'true') {
+    $isLoggedIn = true;
+}
 ?>
 
 <!DOCTYPE html>
@@ -15,205 +17,89 @@ $isLoggedIn = isset($_COOKIE['token']) && !empty($_COOKIE['token']);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Eco Power Solution</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.12/typed.min.js"></script>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
-
-        /* Smooth Gradient Background */
-        .hero {
-            background: linear-gradient(to right, #3b82f6, #10b981);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        /* Glowing Effect */
-        .title {
-            font-size: 4rem;
-            font-weight: bold;
-            color: white;
-            text-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
-            opacity: 0;
-        }
-
-        .subtitle {
-            font-size: 2rem;
-            font-weight: bold;
-            color: #ffffff;
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
-            opacity: 0;
-        }
-
-        /* Floating Animation */
-        .float {
-            animation: floating 3s infinite ease-in-out;
-        }
-
-        @keyframes floating {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-15px); }
-        }
-
-        /* Hover Button Animation */
-        .btn {
-            display: inline-block;
-            margin-top: 20px;
-            padding: 12px 30px;
-            font-size: 1.2rem;
-            color: white;
-            background: linear-gradient(45deg, #ff416c, #ff4b2b);
-            border: none;
-            border-radius: 50px;
-            box-shadow: 0 4px 10px rgba(255, 75, 75, 0.5);
-            cursor: pointer;
-            transition: all 0.3s ease-in-out;
-        }
-
-        .btn:hover {
-            transform: scale(1.1);
-            box-shadow: 0 10px 20px rgba(255, 75, 75, 0.8);
-        }
-
-        /* Navigation Bar */
-        .navbar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 30px;
-            background: rgba(0, 0, 0, 0.7);
-            backdrop-filter: blur(5px);
-            z-index: 100;
-        }
-
-        .navbar a {
-            color: white;
-            font-size: 1.2rem;
-            font-weight: bold;
-            text-transform: uppercase;
-            margin-right: 20px;
-            transition: 0.3s;
-        }
-
-        .navbar a:hover {
-            color: #ff4b2b;
-        }
-
-    </style>
 </head>
-<body class="font-sans bg-black">
+<body class="bg-gray-100 font-sans">
 
-    <!-- Debugging: Display the token in the browser console -->
-    <script>
-        console.log("document.cookie:", document.cookie); // Logs all cookies in the browser console
-    </script>
-
-    <!-- Navigation Bar -->
-    <nav class="navbar">
-        <div>
-            <a href="#about">About Us</a>
-            <a href="#products">Products</a>
-            <a href="#faq">FAQ</a>
-        </div>
-        <div>
-            <?php if ($isLoggedIn): ?>
-                <form action="/users/logout" method="post" style="display:inline;">
-                    <button type="submit" class="btn btn-danger me-2">Logout</button>
-                </form>
-            <?php else: ?>
-                <a href="/users/login" class="btn btn-primary me-2">Login</a>
-                <a href="/users/signup" class="btn btn-secondary">Sign Up</a>
-            <?php endif; ?>
+    <!-- Navbar -->
+    <nav class="bg-white shadow-md sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <a href="/" class="text-2xl font-bold text-green-600">Eco Power Solution</a>
+            <div class="space-x-4">
+                <a href="#about" class="text-gray-700 hover:text-green-600">About Us</a>
+                <a href="#products" class="text-gray-700 hover:text-green-600">Products</a>
+                <a href="#faq" class="text-gray-700 hover:text-green-600">FAQ</a>
+                <?php if ($isLoggedIn): ?>
+                    <a href="/users/profile" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">Profile</a>
+                    <form action="/users/logout" method="post" class="inline">
+                        <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">Logout</button>
+                    </form>
+                <?php else: ?>
+                    <a href="/users/login" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Login</a>
+                    <a href="/users/signup" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">Sign Up</a>
+                <?php endif; ?>
+            </div>
         </div>
     </nav>
 
-    <!-- Success Message -->
-    <?php if (isset($_SESSION['message'])): ?>
-        <div class="alert alert-success text-center mt-3">
-            <?= htmlspecialchars($_SESSION['message']) ?>
-        </div>
-        <?php unset($_SESSION['message']); ?>
-    <?php endif; ?>
-
     <!-- Hero Section -->
-    <section class="hero">
-        <h1 class="title" id="ecoTitle">Eco Power Solution</h1>
-        <p class="subtitle">
-            <span id="typing"></span>
-        </p>
-        <button class="btn" onclick="window.location.href='/listings'">Get Started</button>
+    <section class="bg-gradient-to-r from-green-400 to-blue-500 text-white text-center py-20">
+        <div class="container mx-auto">
+            <h1 class="text-5xl font-bold mb-4">Welcome to Eco Power Solution</h1>
+            <p class="text-lg mb-6">Your Smart Home Revolution Starts Here</p>
+            <a href="/listings" class="bg-white text-green-600 px-6 py-3 rounded-full font-bold hover:bg-gray-100">Explore Products</a>
+        </div>
     </section>
 
-    <!-- About Us & Products -->
-    <section class="py-16 px-8 bg-gray-900 flex flex-wrap justify-center gap-6 text-white">
-        <div id="about" class="bg-gray-800 shadow-lg rounded-lg p-6 max-w-lg w-full md:w-1/2">
-            <h2 class="text-3xl font-bold">About Us</h2>
-            <p class="text-lg mt-4">
-                We create innovative smart home solutions that blend convenience with energy efficiency.
+    <!-- About Us Section -->
+    <section id="about" class="py-16 bg-gray-50">
+        <div class="container mx-auto text-center">
+            <h2 class="text-4xl font-bold text-gray-800 mb-6">About Us</h2>
+            <p class="text-lg text-gray-600 max-w-3xl mx-auto">
+                At Eco Power Solution, we create innovative smart home solutions that blend convenience with energy efficiency. 
+                Our mission is to make your home smarter, safer, and more sustainable.
             </p>
         </div>
+    </section>
 
-        <div id="products" class="bg-gray-800 shadow-lg rounded-lg p-6 max-w-lg w-full md:w-1/2">
-            <h2 class="text-3xl font-bold">Our Products</h2>
-            <p class="text-lg mt-4">
-                Explore our smart home devices, including smart lights, security cameras, and voice assistants.
+    <!-- Products Section -->
+    <section id="products" class="py-16 bg-white">
+        <div class="container mx-auto text-center">
+            <h2 class="text-4xl font-bold text-gray-800 mb-6">Our Products</h2>
+            <p class="text-lg text-gray-600 max-w-3xl mx-auto mb-8">
+                Explore our range of smart home devices, including smart lights, security cameras, and voice assistants.
             </p>
+            <a href="/listings" class="bg-green-500 text-white px-6 py-3 rounded-full font-bold hover:bg-green-600">View All Products</a>
         </div>
     </section>
 
     <!-- FAQ Section -->
-    <section id="faq" class="py-16 px-8 bg-gray-800 text-white">
-        <h2 class="text-4xl font-bold text-center">Frequently Asked Questions</h2>
-        <div class="mt-8 max-w-3xl mx-auto space-y-4">
-            <div class="border border-gray-700 rounded-lg shadow-lg p-4">
-                <button class="w-full text-left font-semibold text-lg focus:outline-none toggle-faq">What is Eco Power Solution?</button>
-                <p class="hidden mt-2 text-gray-400">Eco Power Solution provides smart home automation systems.</p>
-            </div>
-            <div class="border border-gray-700 rounded-lg shadow-lg p-4">
-                <button class="w-full text-left font-semibold text-lg focus:outline-none toggle-faq">How do I install smart devices?</button>
-                <p class="hidden mt-2 text-gray-400">Our smart devices are easy to install via Wi-Fi or Bluetooth.</p>
+    <section id="faq" class="py-16 bg-gray-50">
+        <div class="container mx-auto text-center">
+            <h2 class="text-4xl font-bold text-gray-800 mb-6">Frequently Asked Questions</h2>
+            <div class="max-w-3xl mx-auto space-y-4">
+                <div class="bg-white shadow-md rounded-lg p-4">
+                    <h3 class="text-lg font-semibold text-gray-800">What is Eco Power Solution?</h3>
+                    <p class="text-gray-600 mt-2">Eco Power Solution provides smart home automation systems to make your life easier and more efficient.</p>
+                </div>
+                <div class="bg-white shadow-md rounded-lg p-4">
+                    <h3 class="text-lg font-semibold text-gray-800">How do I install smart devices?</h3>
+                    <p class="text-gray-600 mt-2">Our smart devices are easy to install via Wi-Fi or Bluetooth and come with detailed instructions.</p>
+                </div>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer class="py-6 bg-black text-center text-gray-400">
-        <p>© 2025 Eco Power Solution | All Rights Reserved</p>
+    <footer class="bg-gray-800 text-white py-6">
+        <div class="container mx-auto text-center">
+            <p>© 2025 Eco Power Solution | All Rights Reserved</p>
+            <p>Follow us on 
+                <a href="#" class="text-blue-400 hover:underline">Facebook</a>, 
+                <a href="#" class="text-blue-400 hover:underline">Twitter</a>, and 
+                <a href="#" class="text-blue-400 hover:underline">Instagram</a>.
+            </p>
+        </div>
     </footer>
-
-    <!-- JavaScript Animations -->
-    <script>
-        // Smooth Title Appearance
-        gsap.to(".title", { opacity: 1, duration: 1.5, y: -20 });
-
-        // Smooth Subtitle Animation
-        gsap.to(".subtitle", { opacity: 1, duration: 2, y: -10, delay: 1 });
-
-        // Typewriter Effect for Subtitle
-        new Typed("#typing", {
-            strings: ["Your Smart Home Revolution Starts Here...", "Experience Energy Efficiency Like Never Before!"],
-            typeSpeed: 50,
-            backSpeed: 30,
-            loop: true
-        });
-
-        // FAQ Toggle
-        document.querySelectorAll('.toggle-faq').forEach(button => {
-            button.addEventListener('click', () => {
-                const answer = button.nextElementSibling;
-                answer.classList.toggle('hidden');
-            });
-        });
-    </script>
 
 </body>
 </html>
