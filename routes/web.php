@@ -58,7 +58,6 @@ function getRoutes() {
         },
 
         // Payment routes
-        '/payment/checkout' => 'renderCheckout',
         '/payment/qr' => 'serveQRImage', // Route to serve the QR image
     ];
 }
