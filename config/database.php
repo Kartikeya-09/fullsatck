@@ -1,8 +1,8 @@
 <?php
-$host = getenv('DB_HOST') ?: 'localhost';
-$dbname = getenv('DB_NAME') ?: 'ecopower';
-$username = getenv('DB_USER') ?: 'root';
-$password = getenv('DB_PASS') ?: 'finalpass';
+$host =  'localhost';
+$dbname =  'ecopower';
+$username =  'root';
+$password =  'finalpass';
 
 try {
     $pdo = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
