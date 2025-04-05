@@ -1,5 +1,6 @@
 <?php
 session_start();
+require_once __DIR__ . '/config/session.php'; // Include the session configuration
 require_once __DIR__ . '/routes/web.php'; // Include the routes file
 require_once __DIR__ . '/config/database.php'; // Include the database configuration
 
