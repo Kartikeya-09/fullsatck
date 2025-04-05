@@ -1,11 +1,9 @@
 services:
   - type: web
     name: EcoPowerSolution
-    env: php
-    runtime: php
+    env: docker
     plan: free
-    buildCommand: "composer install"
-    startCommand: php -S 0.0.0.0:10000 -t public
+    dockerfilePath: ./Dockerfile
     envVars:
       - key: DB_HOST
         value: localhost
