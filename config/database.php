@@ -1,8 +1,8 @@
 <?php
-$host = getenv('DB_HOST') ?: 'localhost';
-$dbname = getenv('DB_NAME') ?: 'ecopower';
-$username = getenv('DB_USER') ?: 'root';
-$password = getenv('DB_PASS') ?: 'finalpass';
+$host = getenv('DB_HOST');
+$dbname = getenv('DB_NAME');
+$username = getenv('DB_USER');
+$password = getenv('DB_PASS');
 $port = getenv('DB_PORT') ?: '5432'; // Default PostgreSQL port
 
 try {
