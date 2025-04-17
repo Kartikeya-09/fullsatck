@@ -32,7 +32,7 @@ $totalPrice = array_reduce($_SESSION['cart'] ?? [], function ($total, $product) 
                     <?php foreach ($_SESSION['cart'] as $productId => $product): ?>
                         <li class="flex justify-between items-center">
                             <span><?= htmlspecialchars($product['title']) ?> (x<?= $product['quantity'] ?>)</span>
-                            <span>$<?= htmlspecialchars($product['price'] * $product['quantity']) ?></span>
+                            <span>Rs <?= htmlspecialchars($product['price'] * $product['quantity']) ?></span>
                             <form action="" method="post" class="inline">
                                 <input type="hidden" name="product_id" value="<?= htmlspecialchars($productId) ?>">
                                 <button type="submit" name="remove_from_cart" class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600">Remove</button>
