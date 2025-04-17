@@ -143,7 +143,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
                         <div class="p-4">
                             <h2 class="text-lg font-bold"><?= htmlspecialchars($listing['title']) ?></h2>
                             <p class="text-gray-600 mt-2"><?= htmlspecialchars($listing['description']) ?></p>
-                            <p class="text-gray-800 font-bold mt-4">$<?= htmlspecialchars($listing['price']) ?></p>
+                            <p class="text-gray-800 font-bold mt-4">Rs <?= htmlspecialchars($listing['price']) ?></p>
                             <p class="text-sm text-gray-500 mt-1">Category: <?= htmlspecialchars($listing['category']) ?></p>
                             <div class="mt-4 flex justify-between items-center">
                                 <a href="/listings/<?= urlencode($listing['id']) ?>" class="text-blue-500 hover:underline">View Details</a>

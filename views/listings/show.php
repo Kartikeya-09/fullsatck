@@ -53,14 +53,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
                 <div class="p-6">
                     <h1 class="text-3xl font-bold text-gray-800"><?= htmlspecialchars($listing['title']) ?></h1>
                     <p class="text-gray-600 mt-4"><?= htmlspecialchars($listing['description']) ?></p>
-                    <p class="text-gray-800 font-bold text-xl mt-6">Rs.<span id="product-price"><?= htmlspecialchars($listing['price']) ?></span></p>
+                    <p class="text-gray-800 font-bold text-xl mt-6">Rs <span id="product-price"><?= htmlspecialchars($listing['price']) ?></span></p>
                     <p class="text-sm text-gray-500 mt-2">Category: <?= htmlspecialchars($listing['category']) ?></p>
                     <div class="mt-6 flex items-center space-x-4">
                         <button id="decrease-quantity" class="bg-gray-300 text-gray-800 px-3 py-1 rounded hover:bg-gray-400">-</button>
                         <input type="number" id="product-quantity" value="1" min="1" class="w-16 text-center border border-gray-300 rounded">
                         <button id="increase-quantity" class="bg-gray-300 text-gray-800 px-3 py-1 rounded hover:bg-gray-400">+</button>
                     </div>
-                    <p class="text-gray-800 font-bold text-lg mt-4">Total: $<span id="total-price"><?= htmlspecialchars($listing['price']) ?></span></p>
+                    <p class="text-gray-800 font-bold text-lg mt-4">Total: Rs <span id="total-price"><?= htmlspecialchars($listing['price']) ?></span></p>
                     <div class="mt-6 flex space-x-4">
                         <form action="" method="post">
                             <input type="hidden" name="product_id" value="<?= htmlspecialchars($listing['id']) ?>">

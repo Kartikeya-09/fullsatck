@@ -41,7 +41,7 @@ $totalPrice = array_reduce($_SESSION['cart'] ?? [], function ($total, $product) 
                     <?php endforeach; ?>
                 </ul>
                 <div class="mt-6 text-right font-bold text-xl">
-                    Total: $<?= $totalPrice ?>
+                    Total: Rs <?= $totalPrice ?>
                 </div>
                 <div class="mt-6 text-center">
                     <a href="/payment/qr" class="bg-green-500 text-white px-6 py-3 rounded hover:bg-green-600">Buy Now</a>
