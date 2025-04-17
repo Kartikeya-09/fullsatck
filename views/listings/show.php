@@ -72,7 +72,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
                         <button class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600" onclick="redirectToQR()">Buy Now</button>
                         <?php if ($isDemoUser): ?>
                             <a href="/listings/<?= urlencode($listing['id']) ?>/edit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Edit</a>
-                            <form action="/listings/<?= urlencode($listing['id']) ?>?_method=DELETE" method="post" style="display:inline;">
+                            <form action="/listings/delete" method="post" style="display:inline;">
+                                <input type="hidden" name="id" value="<?= htmlspecialchars($listing['id']) ?>">
                                 <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">Delete</button>
                             </form>
                         <?php endif; ?>
