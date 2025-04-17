@@ -21,8 +21,18 @@ function renderLoginForm() {
 }
 
 function login() {
-    $email = $_POST['email'];
-    $password = $_POST['password'];
+    // Ensure no output is sent before header() calls
+    ob_start();
+
+    // Check if email and password are set in the POST request
+    $email = $_POST['email'] ?? null;
+    $password = $_POST['password'] ?? null;
+
+    if (!$email || !$password) {
+        $_SESSION['error'] = "Email and password are required.";
+        header("Location: /users/login");
+        exit;
+    }
 
     $user = UserModel::findByEmail($email);
     if ($user && password_verify($password, $user['password'])) {
@@ -35,6 +45,9 @@ function login() {
         $_SESSION['error'] = "Invalid email or password.";
         header("Location: /users/login");
     }
+
+    ob_end_flush(); // Ensure output buffering is flushed
+    exit;
 }
 
 function logout() {
