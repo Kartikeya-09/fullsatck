@@ -1,6 +1,6 @@
 <?php
 function isDemoUser() {
-    return isset($_SESSION['email']) && $_SESSION['email'] === 'demo@gmail.com';
+    return isset($_SESSION['email']) && $_SESSION['email'] === 'ecopower.chd@gmail.com';
 }
 
 function restrictToDemoUser() {

@@ -8,6 +8,8 @@ $isLoggedIn = isset($_SESSION['username']) && !empty($_SESSION['username']);
 if (!$isLoggedIn && isset($_COOKIE['user_logged_in']) && $_COOKIE['user_logged_in'] === 'true') {
     $isLoggedIn = true;
 }
+
+$isDemoUser = isset($_SESSION['email']) && $_SESSION['email'] === 'ecopower.chd@gmail.com';
 ?>
 
 <!DOCTYPE html>

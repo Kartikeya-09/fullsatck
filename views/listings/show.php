@@ -9,7 +9,7 @@ require_once __DIR__ . '/../../middlewares/auth.php'; // Include the auth middle
 $isLoggedIn = isLoggedIn();
 
 // Check if the logged-in user is the demo user
-$isDemoUser = isset($_SESSION['email']) && $_SESSION['email'] === 'demo@gmail.com';
+$isDemoUser = isset($_SESSION['email']) && $_SESSION['email'] === 'ecopower.chd@gmail.com';
 
 // Initialize cart if not already set
 if (!isset($_SESSION['cart'])) {
