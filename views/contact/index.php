@@ -2,6 +2,10 @@
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
+
+// Check if a success message exists in the session
+$successMessage = $_SESSION['message'] ?? null;
+unset($_SESSION['message']); // Clear the message after displaying it
 ?>
 
 <!DOCTYPE html>
@@ -16,6 +20,11 @@ if (session_status() === PHP_SESSION_NONE) {
     <div class="container mx-auto mt-10">
         <h1 class="text-center text-4xl font-bold mb-8">📞 Contact Us</h1>
         <div class="bg-white shadow-md rounded-lg p-6 max-w-2xl mx-auto">
+            <?php if ($successMessage): ?>
+                <div class="bg-green-100 text-green-800 p-4 rounded mb-6">
+                    <?= htmlspecialchars($successMessage) ?>
+                </div>
+            <?php endif; ?>
             <p class="text-gray-600 mb-6">
                 Have questions or need assistance? Feel free to reach out to us using the form below, and we'll get back to you as soon as possible.
             </p>

@@ -10,3 +10,7 @@ function restrictToDemoUser() {
         exit;
     }
 }
+
+function isLoggedIn() {
+    return isset($_SESSION['email']) && !empty($_SESSION['email']);
+}
