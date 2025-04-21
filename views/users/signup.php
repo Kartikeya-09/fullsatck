@@ -40,6 +40,7 @@ if (session_status() === PHP_SESSION_NONE) {
                 <div class="mb-4">
                     <label for="password" class="block text-gray-700 font-medium">Password</label>
                     <input type="password" name="password" id="password" class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-500" required>
+                    <small class="text-gray-500">Password must be exactly 6 digits.</small>
                 </div>
                 <div class="mb-4">
                     <label for="image" class="block text-gray-700 font-medium">Profile Image URL</label>

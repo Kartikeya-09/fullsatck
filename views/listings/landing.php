@@ -46,7 +46,10 @@ if (!$isLoggedIn && isset($_COOKIE['user_logged_in']) && $_COOKIE['user_logged_i
         <div class="container mx-auto">
             <h1 class="text-5xl font-bold mb-4">Welcome to Eco Power Solution</h1>
             <p class="text-lg mb-6">Your Smart Home Revolution Starts Here</p>
-            <a href="/listings" class="bg-white text-green-600 px-6 py-3 rounded-full font-bold hover:bg-gray-100">Explore Products</a>
+            <div class="flex justify-center space-x-4">
+                <a href="/listings" class="bg-white text-green-600 px-6 py-3 rounded-full font-bold hover:bg-gray-100">Explore Products</a>
+                <a href="/contact" class="bg-white text-blue-600 px-6 py-3 rounded-full font-bold hover:bg-gray-100">Contact Us</a>
+            </div>
         </div>
     </section>
 

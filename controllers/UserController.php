@@ -8,10 +8,19 @@ function renderSignUpForm() {
 function signUp() {
     $username = $_POST['username'];
     $email = $_POST['email'];
-    $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
+    $password = $_POST['password'];
     $image = $_POST['image'] ?: "https://via.placeholder.com/150"; // Default image if none provided
 
-    UserModel::create(['username' => $username, 'email' => $email, 'password' => $password, 'image' => $image]);
+    // Validate password (must be exactly 6 digits)
+    if (!preg_match('/^\d{6}$/', $password)) {
+        $_SESSION['error'] = "Password must be exactly 6 digits.";
+        header("Location: /users/signup");
+        exit;
+    }
+
+    // Hash the password and create the user
+    $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
+    UserModel::create(['username' => $username, 'email' => $email, 'password' => $hashedPassword, 'image' => $image]);
     $_SESSION['message'] = "Sign up successful. Please log in.";
     header("Location: /users/login");
 }

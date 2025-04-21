@@ -59,6 +59,10 @@ function getRoutes() {
 
         // Payment routes
         '/payment/qr' => 'serveQRImage', // Route to serve the QR image
+
+        // Contact routes
+        '/contact' => 'renderContactForm',
+        '/contact/submit' => 'submitContactForm',
     ];
 }
 
