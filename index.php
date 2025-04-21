@@ -16,7 +16,11 @@ foreach ($routes as $route => $handler) {
     if (preg_match("#^$pattern$#", $requestUri, $matches)) {
         array_shift($matches); // Remove the full match
         $_GET['id'] = $matches[0] ?? null; // Set the dynamic parameter (e.g., id)
-        call_user_func($handler);
+        if (is_callable($handler)) {
+            call_user_func($handler);
+        } else {
+            echo "Error: Invalid route handler.";
+        }
         exit;
     }
 }

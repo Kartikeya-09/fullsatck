@@ -3,11 +3,10 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-// Check if the user is logged in using PHPSESSID or a custom cookie
-$isLoggedIn = isset($_SESSION['username']) && !empty($_SESSION['username']);
-if (!$isLoggedIn && isset($_COOKIE['user_logged_in']) && $_COOKIE['user_logged_in'] === 'true') {
-    $isLoggedIn = true;
-}
+require_once __DIR__ . '/../../middlewares/auth.php'; // Include the auth middleware
+
+// Check if the user is logged in
+$isLoggedIn = isLoggedIn();
 
 // Check if the logged-in user is the demo user
 $isDemoUser = isset($_SESSION['email']) && $_SESSION['email'] === 'demo@gmail.com';
@@ -69,7 +68,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
                             <input type="hidden" id="hidden-quantity" name="product_quantity" value="1">
                             <button type="submit" name="add_to_cart" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">Add to Cart</button>
                         </form>
-                        <button class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600" onclick="redirectToQR()">Buy Now</button>
+                        <?php if ($isLoggedIn): ?>
+                            <button class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600" onclick="redirectToQR()">Buy Now</button>
+                        <?php else: ?>
+                            <a href="/users/login" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Login to Buy</a>
+                        <?php endif; ?>
                         <?php if ($isDemoUser): ?>
                             <a href="/listings/<?= urlencode($listing['id']) ?>/edit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Edit</a>
                             <form action="/listings/delete" method="post" style="display:inline;">

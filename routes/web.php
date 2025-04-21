@@ -2,6 +2,7 @@
 require_once __DIR__ . '/../controllers/UserController.php';
 require_once __DIR__ . '/../controllers/ListingController.php';
 require_once __DIR__ . '/../controllers/CategoryController.php';
+require_once __DIR__ . '/../controllers/ContactController.php'; // Include ContactController
 require_once __DIR__ . '/../middlewares/auth.php'; // Include the auth middleware
 
 function getRoutes() {
